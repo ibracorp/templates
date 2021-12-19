@@ -1,0 +1,3 @@
+#!/bin/bash
+
+cd /opt/apps; git pull --quiet; echo "apps repository updated"
