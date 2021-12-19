@@ -9,6 +9,7 @@ services:
       - /opt/appdata/authelia:/config
     labels:
       traefik.enable: true
+      traefik.http.routers.adminer.entryPoints: https
     networks:
       - proxy
     restart: unless-stopped

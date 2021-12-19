@@ -1,0 +1,8 @@
+users:
+  YOUR_USERNAME:
+    displayname: "YOUR_DISPLAYNAME"
+    # To get your password hash, run this command "docker run --rm authelia/authelia:latest authelia hash-password 'YOUR_PASSWORD'"
+    password: "YOUR_PASSWORD_HASH"
+    email: YOUR@EMAIL.HERE 
+    groups:
+      - admins

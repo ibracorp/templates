@@ -1,0 +1,17 @@
+version: '3'
+services:
+  adminer:
+    container_name: adminer
+    image: adminer
+    labels:
+      traefik.enable: true
+      traefik.http.routers.adminer.entryPoints: https
+      traefik.http.routers.api.middlewares: auth@file
+    networks:
+      - proxy
+    restart: unless-stopped
+
+networks:
+  proxy:
+    driver: bridge
+    external: true

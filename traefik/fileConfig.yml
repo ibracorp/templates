@@ -1,5 +1,6 @@
 http:
   middlewares:
+
     # Add CORS * header
     corsAll:
       headers:
@@ -23,6 +24,7 @@ http:
           - "*"
         accessControlMaxAge: 100
         addVaryHeader: true
+
     # Security headers
     SecHeaders:
       headers:
@@ -39,3 +41,25 @@ http:
         stsIncludeSubdomains: true
         stsSeconds: 63072000
         stsPreload: true
+
+    # Authelia guard
+    auth:
+      forwardauth:
+        address: http://auth:9091/api/verify?rd=https://auth.YOUR_DOMAIN.COM/
+        trustForwardHeader: true
+        authResponseHeaders:
+          - Remote-User
+          - Remote-Groups
+          - Remote-Name
+          - Remote-Email
+
+    # Authelia basic auth guard
+    auth-basic:
+      forwardauth:
+        address: http://auth:9091/api/verify?auth=basic
+        trustForwardHeader: true
+        authResponseHeaders:
+          - Remote-User
+          - Remote-Groups
+          - Remote-Name
+          - Remote-Email
