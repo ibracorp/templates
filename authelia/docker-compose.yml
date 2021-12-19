@@ -1,0 +1,48 @@
+version: '3'
+services:
+  auth:
+    container_name: auth    
+    image: authelia/authelia:latest
+    expose:
+      - 9091
+    volumes:
+      - /opt/appdata/authelia:/config
+    labels:
+      traefik.enable: true
+    networks:
+      - proxy
+    restart: unless-stopped
+    depends_on:
+      - redis
+      - mariadb
+
+  redis:
+    container_name: redis
+    image: bitnami/redis:latest
+    expose:
+      - 6379
+    volumes:
+      - /opt/appdata/redis:/bitnami/
+    environment:
+      REDIS_PASSWORD: "YOUR_REDIS_PASSWORD"
+    networks:
+      - proxy
+    restart: unless-stopped
+
+  mariadb:
+    container_name: mariadb
+    image: linuxserver/mariadb:latest
+    expose:
+      - 3306
+    volumes:
+      - /opt/mariadb:/config
+    environment:
+      MYSQL_ROOT_PASSWORD: "YOUR_MYSQL_ROOT_PASSWORD"    
+    networks:
+      - proxy
+    restart: unless-stopped
+
+networks:
+  proxy:
+    driver: bridge
+    external: true
