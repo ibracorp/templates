@@ -6,7 +6,7 @@ services:
     expose:
       - 9696
     volumes:
-      - /path/to/data:/config
+      - /opt/appdata/prowlarr:/config
     labels:
       traefik.enable: true
       traefik.http.routers.prowlarr.entryPoints: https

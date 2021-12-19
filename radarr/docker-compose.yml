@@ -1,0 +1,24 @@
+version: '3'
+services:
+  radarr:
+    container_name: radarr
+    image: linuxserver/radarr:latest
+    expose:
+      - 7878
+    volumes:
+      - /opt/appdata/radarr:/config
+    labels:
+      traefik.enable: true
+      traefik.http.routers.radarr.entryPoints: https
+      ## AUTHELIA Auth ##
+      # traefik.http.routers.radarr.middlewares: auth@file
+    environment:
+      TZ: Europe/London
+    networks:
+      - proxy
+    restart: unless-stopped
+
+networks:
+  proxy:
+    driver: bridge
+    external: true

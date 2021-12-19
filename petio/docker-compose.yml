@@ -1,0 +1,36 @@
+version: '3'
+services:
+  petio:
+    container_name: petio
+    image: ghcr.io/petio-team/petio:latest
+    expose:
+      - 7777
+    volumes:
+      - /opt/appdata/petio:/app/api/config
+      - /opt/appdata/petio:/app/logs
+    labels:
+      traefik.enable: true
+      traefik.http.routers.petio.entryPoints: https
+      ## AUTHELIA Auth ##
+      # traefik.http.routers.petio.middlewares: auth@file
+    environment:
+      TZ: Europe/London
+    networks:
+      - proxy
+    restart: unless-stopped
+    depends_on:
+      - mongo
+
+  mongo:
+    container_name: mongo
+    image: mongo:4.4
+    volumes:
+      - /opt/appdata/mongodb:/data/db
+    networks:
+      - proxy
+    restart: unless-stopped
+
+networks:
+  proxy:
+    driver: bridge
+    external: true

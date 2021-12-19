@@ -1,0 +1,24 @@
+version: '3'
+services:
+  overseerr:
+    container_name: overseerr
+    image: sctx/overseerr:latest
+    expose:
+      - 5055
+    volumes:
+      - /opt/appdata/overseerr:/app/config
+    labels:
+      traefik.enable: true
+      traefik.http.routers.overseerr.entryPoints: https
+      ## AUTHELIA Auth ##
+      # traefik.http.routers.overseerr.middlewares: auth@file
+    environment:
+      TZ: Europe/London
+    networks:
+      - proxy
+    restart: unless-stopped
+
+networks:
+  proxy:
+    driver: bridge
+    external: true

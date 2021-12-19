@@ -1,0 +1,24 @@
+version: '3'
+services:
+  sonarr:
+    container_name: sonarr
+    image: linuxserver/sonarr:latest
+    expose:
+      - 8989
+    volumes:
+      - /opt/appdata/sonarr:/config
+    labels:
+      traefik.enable: true
+      traefik.http.routers.sonarr.entryPoints: https
+      ## AUTHELIA Auth ##
+      # traefik.http.routers.sonarr.middlewares: auth@file
+    environment:
+      TZ: Europe/London
+    networks:
+      - proxy
+    restart: unless-stopped
+
+networks:
+  proxy:
+    driver: bridge
+    external: true
