@@ -7,7 +7,7 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - /opt/apps/traefik/:/etc/traefik/
+      - /opt/appdata/traefik/:/etc/traefik/
     labels:
       traefik.http.routers.api.rule: Host(`traefik.YOUR_DOMAIN.COM`)
       traefik.http.routers.api.entryPoints: https
