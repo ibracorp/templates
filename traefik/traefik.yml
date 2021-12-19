@@ -1,0 +1,62 @@
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: true
+
+entryPoints:
+  # Not used in apps, but redirect everything from http to https
+  http:
+    address: :80
+    http:
+      redirections:
+        entryPoint:
+          to: https
+          scheme: https
+  # Https endpoint, with domain wildcard
+  https:
+    address: :443
+    http:
+      tls:
+        # Generate a wilecard domain
+        certResolver: letsencrypt
+        domains:
+          - main: YOUR_DOMAIN.COM
+            sans:
+              - '*.YOUR_DOMAIN.COM'
+      middlewares:
+        - SecHeaders@file
+
+providers:
+  providersThrottleDuration: 2s
+  # File provider for connecting things that are outside of docker / defining middleware
+  file:
+    filename: /etc/traefik/fileConfig.yml
+    watch: true
+  docker:
+    watch: true
+    network: proxy
+    # Default host rule to containername.domain.example
+    defaultRule: "Host(`{{ index .Labels \"com.docker.compose.service\"}}.YOUR_DOMAIN.COM`)"
+    swarmModeRefreshSeconds: 15s
+    exposedByDefault: false
+
+# Enable traefik ui
+api:
+  dashboard: true
+  insecure: true
+
+# Log level INFO|DEBUG|ERROR
+log:
+  level: INFO
+
+# Use letsencrypt to generate ssl serficiates
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: YOUR@EMAIL.HERE
+      storage: /etc/traefik/acme.json
+      dnsChallenge:
+        provider: cloudflare
+        # Used to make sure the dns challenge is propagated to the rights dns servers
+        resolvers:
+          - "1.1.1.1:53"
+          - "1.0.0.1:53"

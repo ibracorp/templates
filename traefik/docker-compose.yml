@@ -1,0 +1,44 @@
+version: '3'
+services:
+  traefik:
+    container_name: traefik
+    image: traefik:2.5
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /opt/apps/traefik/:/etc/traefik/
+    labels:
+      traefik.http.routers.api.rule: Host(`traefik.YOUR_DOMAIN.COM`)
+      traefik.http.routers.api.entryPoints: https
+      traefik.http.routers.api.service: api@internal
+      traefik.http.routers.api.middlewares: auth@file
+      traefik.enable: true
+    environment:
+      DOCKER_HOST: dockersocket
+      CF_API_KEY: CF_API_KEY_HERE
+      CF_API_EMAIL: CF@EMAIL.HERE
+    networks:
+      - proxy
+    restart: unless-stopped
+    depends_on:
+      - dockersocket
+
+  dockersocket:
+    container_name: dockersocket
+    image: tecnativa/docker-socket-proxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      CONTAINERS: 1
+      POST: 0
+    privileged: true
+    networks:
+      - proxy
+    restart: unless-stopped
+
+
+networks:
+  proxy:
+    driver: bridge
+    external: true
