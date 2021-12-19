@@ -38,6 +38,7 @@ providers:
     defaultRule: "Host(`{{ index .Labels \"com.docker.compose.service\"}}.YOUR_DOMAIN.COM`)"
     swarmModeRefreshSeconds: 15s
     exposedByDefault: false
+    endpoint: "tcp://dockersocket:2375"
 
 # Enable traefik ui
 api:

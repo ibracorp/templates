@@ -4,7 +4,7 @@
 ###############################################################################
 
 theme: dark
-jwt_secret: YOUR_JWT_SECRET
+jwt_secret: "YOUR_JWT_SECRET"
 default_redirection_url: https://YOUR_DOMAIN.COM/
 
 server:
@@ -62,14 +62,14 @@ session:
   name: authelia_session
   domain: YOUR_DOMAIN.COM
   same_site: lax
-  secret: YOUR_SESSION_SECRET
+  secret: "YOUR_SESSION_SECRET"
   expiration: 1h
   inactivity: 5m
   remember_me_duration: 2M
   redis:
     host: redis
     port: 6379
-    password: YOUR_REDIS_PASSWORD
+    password: "YOUR_REDIS_PASSWORD"
     database_index: 0
     maximum_active_connections: 10
     minimum_idle_connections: 0
@@ -80,19 +80,19 @@ regulation:
   ban_time: 12h
 
 storage:
-  encryption_key: YOUR_STORAGE_ENCRYPTION_KEY
+  encryption_key: "YOUR_STORAGE_ENCRYPTION_KEY"
   mysql:
     host: mariadb
     port: 3306
     database: authelia
     username: authelia
-    password: YOUR_MYSQL_AUTHELIA_DB_PASSWORD
+    password: "YOUR_MYSQL_AUTHELIA_DB_PASSWORD"
   
 notifier:
   disable_startup_check: false
   smtp:
     username: YOUR@EMAIL.HERE
-    password: YOUR_EMAIL_PASSWORD
+    password: "YOUR_EMAIL_PASSWORD"
     host: YOUR_SMTP_HOST
     port: 587
     sender: YOUR@EMAIL.HERE
