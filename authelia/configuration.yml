@@ -42,21 +42,7 @@ authentication_backend:
       parallelism: 8
 
 access_control:
-  default_policy: deny
-  rules:
-    - domain:
-        - "auth.YOUR_DOMAIN.COM"
-      policy: bypass
-    - domain: 
-        - "*.YOUR_DOMAIN.COM"
-      policy: one_factor
-      subject: 
-        - "group:admins"
-    - domain: 
-        - "YOUR_DOMAIN.COM"
-      policy: one_factor
-      subject: 
-        - "group:admins"
+  default_policy: one_factor
 
 session:
   name: authelia_session
