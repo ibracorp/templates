@@ -36,7 +36,7 @@ services:
     expose:
       - 3306
     volumes:
-      - /opt/mariadb:/config
+      - /opt/appdata/mariadb:/config
     environment:
       MYSQL_ROOT_PASSWORD: "YOUR_MYSQL_ROOT_PASSWORD"    
     networks:
