@@ -2,7 +2,7 @@ version: '3'
 services:
   traefik:
     container_name: traefik
-    image: traefik:2.5
+    image: traefik:2.6
     ports:
       - 80:80
       - 443:443
@@ -16,8 +16,7 @@ services:
       traefik.http.routers.api.middlewares: auth@file
     environment:
       DOCKER_HOST: dockersocket
-      CF_API_KEY: CF_API_KEY_HERE
-      CF_API_EMAIL: CF@EMAIL.HERE
+      CF_DNS_API_TOKEN: YOUR_SUPER_SECURE_CLOUDFLARE_API_TOKEN
     networks:
       - proxy
     restart: unless-stopped
