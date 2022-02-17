@@ -1,4 +1,4 @@
-version: "3"
+version: '3'
 services:
   vault:
     container_name: vault
@@ -6,14 +6,13 @@ services:
     expose:
       - 80
     volumes:
-      - /opt/appdata/vaultwarden/:/data/
+      - ${APP_DIR}/vaultwarden/:/data/
     labels:
       traefik.enable: true
       traefik.http.routers.vault.entryPoints: https
-      ## AUTHELIA Auth ##
-      # traefik.http.routers.vault.middlewares: auth@file
+      traefik.http.routers.vault.middlewares: auth@file
     environment:
-      TZ: Europe/London
+      TZ: ${TZ}
     networks:
       - proxy
     restart: unless-stopped

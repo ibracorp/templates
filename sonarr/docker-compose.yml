@@ -6,14 +6,13 @@ services:
     expose:
       - 8989
     volumes:
-      - /opt/appdata/sonarr:/config
+      - ${APP_DIR}/sonarr:/config
     labels:
       traefik.enable: true
       traefik.http.routers.sonarr.entryPoints: https
-      ## AUTHELIA Auth ##
-      # traefik.http.routers.sonarr.middlewares: auth@file
+      traefik.http.routers.sonarr.middlewares: auth@file
     environment:
-      TZ: Europe/London
+      TZ: ${TZ}
     networks:
       - proxy
     restart: unless-stopped

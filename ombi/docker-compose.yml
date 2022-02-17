@@ -6,14 +6,12 @@ services:
     expose:
       - 3579
     volumes:
-      - /opt/appdata/ombi:/config
+      - ${APP_DIR}/ombi:/config
     labels:
       traefik.enable: true
       traefik.http.routers.ombi.entryPoints: https
-      ## AUTHELIA Auth ##
-      # traefik.http.routers.ombi.middlewares: auth@file
     environment:
-      TZ: Europe/London
+      TZ: ${TZ}
     networks:
       - proxy
     restart: unless-stopped

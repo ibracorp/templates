@@ -6,8 +6,7 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.adminer.entryPoints: https
-      ## AUTHELIA Auth ##
-      # traefik.http.routers.adminer.middlewares: auth@file
+      traefik.http.routers.adminer.middlewares: auth@file
     networks:
       - proxy
     restart: unless-stopped

@@ -1,63 +1,82 @@
 global:
   checkNewVersion: true
-  sendAnonymousUsage: true
+  sendAnonymousUsage: false
+
+serversTransport:
+  insecureSkipVerify: true
 
 entryPoints:
-  # Not used in apps, but redirect everything from http to https
   http:
     address: :80
+    forwardedHeaders:
+      trustedIPs: &trustedIps
+        - 173.245.48.0/20
+        - 103.21.244.0/22
+        - 103.22.200.0/22
+        - 103.31.4.0/22
+        - 141.101.64.0/18
+        - 108.162.192.0/18
+        - 190.93.240.0/20
+        - 188.114.96.0/20
+        - 197.234.240.0/22
+        - 198.41.128.0/17
+        - 162.158.0.0/15
+        - 104.16.0.0/12
+        - 172.64.0.0/13
+        - 131.0.72.0/22
+        - 2400:cb00::/32
+        - 2606:4700::/32
+        - 2803:f800::/32
+        - 2405:b500::/32
+        - 2405:8100::/32
+        - 2a06:98c0::/29
+        - 2c0f:f248::/32
     http:
       redirections:
         entryPoint:
           to: https
           scheme: https
-  # Https endpoint, with domain wildcard
+
   https:
     address: :443
+    forwardedHeaders:
+      trustedIPs: *trustedIps
     http:
       tls:
-        # Generate a wilecard domain
         certResolver: letsencrypt
         domains:
-          - main: YOUR_DOMAIN.COM
+          - main: YOURDOMAIN.COM
             sans:
-              - '*.YOUR_DOMAIN.COM'
+              - '*.YOURDOMAIN.COM'
       middlewares:
-        - SecHeaders@file
+        - securityHeaders@file
 
 providers:
   providersThrottleDuration: 2s
-  # File provider for connecting things that are outside of docker / defining middleware
   file:
     filename: /etc/traefik/fileConfig.yml
     watch: true
   docker:
     watch: true
     network: proxy
-    # Default host rule to containername.domain.example
-    defaultRule: "Host(`{{ index .Labels \"com.docker.compose.service\"}}.YOUR_DOMAIN.COM`)"
+    defaultRule: "Host(`{{ index .Labels \"com.docker.compose.service\"}}.YOURDOMAIN.COM`)"
     swarmModeRefreshSeconds: 15s
     exposedByDefault: false
-    endpoint: "tcp://dockersocket:2375"
 
-# Enable traefik ui
 api:
   dashboard: true
   insecure: true
 
-# Log level INFO|DEBUG|ERROR
 log:
   level: INFO
 
-# Use letsencrypt to generate ssl serficiates
 certificatesResolvers:
   letsencrypt:
     acme:
-      email: YOUR@EMAIL.HERE
+      email: YOUR@EMAIL.COM
       storage: /etc/traefik/acme.json
       dnsChallenge:
         provider: cloudflare
-        # Used to make sure the dns challenge is propagated to the rights dns servers
         resolvers:
           - "1.1.1.1:53"
           - "1.0.0.1:53"

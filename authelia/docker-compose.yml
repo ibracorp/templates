@@ -6,12 +6,13 @@ services:
     expose:
       - 9091
     volumes:
-      - /opt/appdata/authelia:/config
+      - ${APP_DIR}/authelia:/config
     labels:
       traefik.enable: true
       traefik.http.routers.authelia.entryPoints: https
     networks:
       - proxy
+      - secure
     restart: unless-stopped
     depends_on:
       - redis
@@ -23,11 +24,11 @@ services:
     expose:
       - 6379
     volumes:
-      - /opt/appdata/redis:/bitnami/
+      - ${APP_DIR}/redis:/bitnami/
     environment:
-      REDIS_PASSWORD: "YOUR_REDIS_PASSWORD"
+      REDIS_PASSWORD: "${YOUR_REDIS_PASSWORD}"
     networks:
-      - proxy
+      - secure
     restart: unless-stopped
 
   mariadb:
@@ -36,14 +37,60 @@ services:
     expose:
       - 3306
     volumes:
-      - /opt/appdata/mariadb:/config
+      - ${APP_DIR}/mariadb:/config
     environment:
-      MYSQL_ROOT_PASSWORD: "YOUR_MYSQL_ROOT_PASSWORD"    
+      MYSQL_ROOT_PASSWORD: "${YOUR_MYSQL_ROOT_PASSWORD}"    
+    networks:
+      - secure
+    restart: unless-stopped
+
+  openldap:
+    container_name: openldap
+    image: osixia/openldap:latest
+    expose: 
+      - 389
+      - 636
+    volumes:
+      - ${APP_DIR}/openldap/certificates:/container/service/slapd/assets/certs
+      - ${APP_DIR}/openldap/slapd/database:/var/lib/ldap
+      - ${APP_DIR}/openldap/slapd/config:/etc/ldap/slapd.d
+    environment: 
+      LDAP_ORGANISATION: "${YOUR_LDAP_ORGANISATION}"
+      LDAP_DOMAIN: "${YOUR_LDAP_DOMAIN}"
+      LDAP_ADMIN_USERNAME: "${YOUR_LDAP_ADMIN_USERNAME}"
+      LDAP_ADMIN_PASSWORD: "${YOUR_LDAP_ADMIN_PASSWORD}"
+      LDAP_CONFIG_PASSWORD: "${YOUR_LDAP_CONFIG_PASSWORD}"
+      LDAP_BASE_DN: "${YOUR_LDAP_BASE_DN}"
+      LDAP_TLS_CRT_FILENAME: "${YOUR_LDAP_TLS_CRT_FILENAME}"
+      LDAP_TLS_KEY_FILENAME: "${YOUR_LDAP_TLS_KEY_FILENAME}"
+      LDAP_TLS_CA_CRT_FILENAME: "${YOUR_LDAP_TLS_CA_CRT_FILENAME}"
+    networks:
+      - secure
+    restart: unless-stopped
+  
+  ldapadmin:
+    container_name: ldapadmin
+    image: osixia/phpldapadmin:latest
+    expose: 
+      - 80
+    labels:
+      traefik.enable: true
+      traefik.http.routers.ldapadmin.entryPoints: https
+      traefik.http.routers.ldapadmin.middlewares: auth@file
+    environment: 
+      - PHPLDAPADMIN_LDAP_HOSTS=openldap
+      - PHPLDAPADMIN_HTTPS=false
+    depends_on:
+      - openldap
     networks:
       - proxy
+      - secure
     restart: unless-stopped
 
 networks:
   proxy:
+    driver: bridge
+    external: true
+  secure:
     driver: bridge
     external: true

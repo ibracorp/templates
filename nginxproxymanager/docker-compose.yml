@@ -9,14 +9,14 @@ services:
     expose:
       - 81
     volumes:
-      - /opt/appdata/npm/data:/data
-      - /opt/appdata/npm/letsencrypt:/etc/letsencrypt
+      - ${APP_DIR}/npm/data:/data
+      - ${APP_DIR}/npm/letsencrypt:/etc/letsencrypt
     environment:
       DB_MYSQL_HOST: mariadb
       DB_MYSQL_PORT: 3306
-      DB_MYSQL_USER: npm
-      DB_MYSQL_NAME: npm
-      DB_MYSQL_PASSWORD: "YOUR_MYSQL_NPM_DB_PASSWORD"
+      DB_MYSQL_USER: ${YOUR_MYSQL_NPM_USER}
+      DB_MYSQL_NAME: ${YOUR_MYSQL_NPM_NAME}
+      DB_MYSQL_PASSWORD: "${YOUR_MYSQL_NPM_PASSWORD}"
       DISABLE_IPV6: true
     networks:
       - proxy

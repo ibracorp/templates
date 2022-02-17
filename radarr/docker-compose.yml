@@ -6,14 +6,13 @@ services:
     expose:
       - 7878
     volumes:
-      - /opt/appdata/radarr:/config
+      - ${APP_DIR}/radarr:/config
     labels:
       traefik.enable: true
       traefik.http.routers.radarr.entryPoints: https
-      ## AUTHELIA Auth ##
-      # traefik.http.routers.radarr.middlewares: auth@file
+      traefik.http.routers.radarr.middlewares: auth@file
     environment:
-      TZ: Europe/London
+      TZ: ${TZ}
     networks:
       - proxy
     restart: unless-stopped

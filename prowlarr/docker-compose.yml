@@ -6,14 +6,13 @@ services:
     expose:
       - 9696
     volumes:
-      - /opt/appdata/prowlarr:/config
+      - ${APP_DIR}/prowlarr:/config
     labels:
       traefik.enable: true
       traefik.http.routers.prowlarr.entryPoints: https
-      ## AUTHELIA Auth ##
-      # traefik.http.routers.prowlarr.middlewares: auth@file
+      traefik.http.routers.prowlarr.middlewares: auth@file
     environment:
-      TZ: Europe/London
+      TZ: ${TZ}
     networks:
       - proxy
     restart: unless-stopped

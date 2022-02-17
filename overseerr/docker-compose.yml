@@ -6,14 +6,12 @@ services:
     expose:
       - 5055
     volumes:
-      - /opt/appdata/overseerr:/app/config
+      - ${APP_DIR}/overseerr:/app/config
     labels:
       traefik.enable: true
       traefik.http.routers.overseerr.entryPoints: https
-      ## AUTHELIA Auth ##
-      # traefik.http.routers.overseerr.middlewares: auth@file
     environment:
-      TZ: Europe/London
+      TZ: ${TZ}
     networks:
       - proxy
     restart: unless-stopped

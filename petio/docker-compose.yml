@@ -6,17 +6,16 @@ services:
     expose:
       - 7777
     volumes:
-      - /opt/appdata/petio:/app/api/config
-      - /opt/appdata/petio:/app/logs
+      - ${APP_DIR}/petio/config:/app/api/config
+      - ${APP_DIR}/petio/logs:/app/logs
     labels:
       traefik.enable: true
       traefik.http.routers.petio.entryPoints: https
-      ## AUTHELIA Auth ##
-      # traefik.http.routers.petio.middlewares: auth@file
     environment:
-      TZ: Europe/London
+      TZ: ${TZ}
     networks:
       - proxy
+      - secure
     restart: unless-stopped
     depends_on:
       - mongo
@@ -25,12 +24,15 @@ services:
     container_name: mongo
     image: mongo:4.4
     volumes:
-      - /opt/appdata/mongodb:/data/db
+      - ${APP_DIR}/mongodb:/data/db
     networks:
-      - proxy
+      - secure
     restart: unless-stopped
 
 networks:
   proxy:
+    driver: bridge
+    external: true
+  secure:
     driver: bridge
     external: true
