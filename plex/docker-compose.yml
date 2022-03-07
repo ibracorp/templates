@@ -26,6 +26,8 @@ services:
       - "${APP_DIR}/plex/database:/config:rw"
       - "/mnt:/mnt:ro"
       - "/dev/shm:/transcode:rw"
+    devices:
+       - /dev/dri:/dev/dri
     labels:
       traefik.enable: true
       traefik.http.routers.plex.entryPoints: https
