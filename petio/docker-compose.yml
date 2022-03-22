@@ -13,6 +13,9 @@ services:
       traefik.http.routers.petio.entryPoints: https
     environment:
       TZ: ${TZ}
+      PGID: ${ID}
+      PUID: ${ID}
+      UMASK: ${UMASK}
     networks:
       - proxy
       - secure

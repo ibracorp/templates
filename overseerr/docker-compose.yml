@@ -12,6 +12,9 @@ services:
       traefik.http.routers.overseerr.entryPoints: https
     environment:
       TZ: ${TZ}
+      PGID: ${ID}
+      PUID: ${ID}
+      UMASK: ${UMASK}
     networks:
       - proxy
     restart: unless-stopped

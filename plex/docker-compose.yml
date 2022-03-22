@@ -3,12 +3,12 @@ services:
   plex:
     container_name: "plex"
     environment:
-      - "PGID=${ID}"
-      - "PUID=${ID}"
-      - "TZ=${TZ}"
-      - "UMASK=${UMASK}"
-      - "PLEX_CLAIM=${PLEX_CLAIM_ID}"
-      - "VERSION=${PLEX_VERSION}"
+      TZ: ${TZ}
+      PGID: ${ID}
+      PUID: ${ID}
+      UMASK: ${UMASK}
+      PLEX_CLAIM: ${PLEX_CLAIM_ID}
+      VERSION: ${PLEX_VERSION}
     image: "linuxserver/plex:latest"
     restart: "unless-stopped"
     networks:
