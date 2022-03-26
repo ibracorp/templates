@@ -1,0 +1,26 @@
+version: '3'
+services:
+  tautulli:
+    container_name: tautulli
+    image: linuxserver/tautulli:latest
+    expose:
+      - 8181
+    volumes:
+      - ${APP_DIR}/tautulli:/config
+    labels:
+      traefik.enable: true
+      traefik.http.routers.tautulli.entryPoints: https
+      traefik.http.routers.tautulli.middlewares: auth@file
+    environment:
+      TZ: ${TZ}
+      PGID: ${ID}
+      PUID: ${ID}
+      UMASK: ${UMASK}
+    networks:
+      - proxy
+    restart: unless-stopped
+
+networks:
+  proxy:
+    driver: bridge
+    external: true
