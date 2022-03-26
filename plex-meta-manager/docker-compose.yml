@@ -1,0 +1,20 @@
+version: '3'
+services:
+  plex-meta-manager:
+    container_name: plex-meta-manager
+    image: meisnate12/plex-meta-manager:latest
+    volumes:
+      - ${APP_DIR}/plex-meta-manager:/config
+    environment:
+      TZ: ${TZ}
+      PGID: ${ID}
+      PUID: ${ID}
+      UMASK: ${UMASK}
+    networks:
+      - proxy
+    restart: unless-stopped
+
+networks:
+  proxy:
+    driver: bridge
+    external: true
