@@ -2,7 +2,7 @@ version: '3'
 services:
   prowlarr:
     container_name: prowlarr
-    image: linuxserver/prowlarr:latest
+    image: linuxserver/prowlarr:nightly
     expose:
       - 9696
     volumes:
