@@ -1,0 +1,26 @@
+version: '3'
+services:
+  nzbget:
+    container_name: nzbget
+    image: linuxserver/nzbget:latest
+    expose:
+      - 6789
+    volumes:
+      - ${APP_DIR:?err}/nzbget:/config
+    labels:
+      traefik.enable: true
+      traefik.http.routers.nzbget.entryPoints: https
+      traefik.http.routers.nzbget.middlewares: auth@file
+    environment:
+      TZ: ${TZ:?err}
+      PGID: ${ID:?err}
+      PUID: ${ID:?err}
+      UMASK: ${UMASK:?err}
+    networks:
+      - proxy
+    restart: unless-stopped
+
+networks:
+  proxy:
+    driver: bridge
+    external: true
