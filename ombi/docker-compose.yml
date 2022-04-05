@@ -6,15 +6,15 @@ services:
     expose:
       - 3579
     volumes:
-      - ${APP_DIR}/ombi:/config
+      - ${APP_DIR:?err}/ombi:/config
     labels:
       traefik.enable: true
       traefik.http.routers.ombi.entryPoints: https
     environment:
-      TZ: ${TZ}
-      PGID: ${ID}
-      PUID: ${ID}
-      UMASK: ${UMASK}
+      TZ: ${TZ:?err}
+      PGID: ${ID:?err}
+      PUID: ${ID:?err}
+      UMASK: ${UMASK:?err}
     networks:
       - proxy
     restart: unless-stopped

@@ -7,16 +7,16 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - ${APP_DIR}/traefik/:/etc/traefik/
+      - ${APP_DIR:?err}/traefik/:/etc/traefik/
     labels:
       traefik.enable: true
-      traefik.http.routers.api.rule: Host(`traefik.${YOUR_DOMAIN}`)
+      traefik.http.routers.api.rule: Host(`traefik.${DOMAIN:?err}`)
       traefik.http.routers.api.entryPoints: https
       traefik.http.routers.api.service: api@internal
       traefik.http.routers.api.middlewares: auth@file
     environment:
       DOCKER_HOST: dockersocket
-      CF_DNS_API_TOKEN: YOUR_SUPER_SECURE_CLOUDFLARE_API_TOKEN
+      CF_DNS_API_TOKEN: ${CLOUDFLARE_API_TOKEN:?err}
     networks:
       - proxy
       - secure

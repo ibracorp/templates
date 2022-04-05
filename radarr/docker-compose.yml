@@ -6,16 +6,16 @@ services:
     expose:
       - 7878
     volumes:
-      - ${APP_DIR}/radarr:/config
+      - ${APP_DIR:?err}/radarr:/config
     labels:
       traefik.enable: true
       traefik.http.routers.radarr.entryPoints: https
       traefik.http.routers.radarr.middlewares: auth@file
     environment:
-      TZ: ${TZ}
-      PGID: ${ID}
-      PUID: ${ID}
-      UMASK: ${UMASK}
+      TZ: ${TZ:?err}
+      PGID: ${ID:?err}
+      PUID: ${ID:?err}
+      UMASK: ${UMASK:?err}
     networks:
       - proxy
     restart: unless-stopped

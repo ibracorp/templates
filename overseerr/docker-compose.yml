@@ -6,15 +6,15 @@ services:
     expose:
       - 5055
     volumes:
-      - ${APP_DIR}/overseerr:/app/config
+      - ${APP_DIR:?err}/overseerr:/app/config
     labels:
       traefik.enable: true
       traefik.http.routers.overseerr.entryPoints: https
     environment:
-      TZ: ${TZ}
-      PGID: ${ID}
-      PUID: ${ID}
-      UMASK: ${UMASK}
+      TZ: ${TZ:?err}
+      PGID: ${ID:?err}
+      PUID: ${ID:?err}
+      UMASK: ${UMASK:?err}
     networks:
       - proxy
     restart: unless-stopped

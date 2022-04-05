@@ -6,16 +6,16 @@ services:
     expose:
       - 8989
     volumes:
-      - ${APP_DIR}/sonarr:/config
+      - ${APP_DIR:?err}/sonarr:/config
     labels:
       traefik.enable: true
       traefik.http.routers.sonarr.entryPoints: https
       traefik.http.routers.sonarr.middlewares: auth@file
     environment:
-      TZ: ${TZ}
-      PGID: ${ID}
-      PUID: ${ID}
-      UMASK: ${UMASK}
+      TZ: ${TZ:?err}
+      PGID: ${ID:?err}
+      PUID: ${ID:?err}
+      UMASK: ${UMASK:?err}
     networks:
       - proxy
     restart: unless-stopped

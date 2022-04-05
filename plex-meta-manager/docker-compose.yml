@@ -4,12 +4,12 @@ services:
     container_name: plex-meta-manager
     image: meisnate12/plex-meta-manager:latest
     volumes:
-      - ${APP_DIR}/plex-meta-manager:/config
+      - ${APP_DIR:?err}/plex-meta-manager:/config
     environment:
-      TZ: ${TZ}
-      PGID: ${ID}
-      PUID: ${ID}
-      UMASK: ${UMASK}
+      TZ: ${TZ:?err}
+      PGID: ${ID:?err}
+      PUID: ${ID:?err}
+      UMASK: ${UMASK:?err}
     networks:
       - proxy
     restart: unless-stopped

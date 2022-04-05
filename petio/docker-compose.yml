@@ -6,16 +6,16 @@ services:
     expose:
       - 7777
     volumes:
-      - ${APP_DIR}/petio/config:/app/api/config
-      - ${APP_DIR}/petio/logs:/app/logs
+      - ${APP_DIR:?err}/petio/config:/app/api/config
+      - ${APP_DIR:?err}/petio/logs:/app/logs
     labels:
       traefik.enable: true
       traefik.http.routers.petio.entryPoints: https
     environment:
-      TZ: ${TZ}
-      PGID: ${ID}
-      PUID: ${ID}
-      UMASK: ${UMASK}
+      TZ: ${TZ:?err}
+      PGID: ${ID:?err}
+      PUID: ${ID:?err}
+      UMASK: ${UMASK:?err}
     networks:
       - proxy
       - secure
@@ -27,7 +27,7 @@ services:
     container_name: mongo
     image: mongo:4.4
     volumes:
-      - ${APP_DIR}/mongodb:/data/db
+      - ${APP_DIR:?err}/mongodb:/data/db
     networks:
       - secure
     restart: unless-stopped

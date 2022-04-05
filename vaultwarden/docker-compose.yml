@@ -6,13 +6,13 @@ services:
     expose:
       - 80
     volumes:
-      - ${APP_DIR}/vaultwarden/:/data/
+      - ${APP_DIR:?err}/vaultwarden/:/data/
     labels:
       traefik.enable: true
       traefik.http.routers.vault.entryPoints: https
       traefik.http.routers.vault.middlewares: auth@file
     environment:
-      TZ: ${TZ}
+      TZ: ${TZ:?err}
     networks:
       - proxy
     restart: unless-stopped

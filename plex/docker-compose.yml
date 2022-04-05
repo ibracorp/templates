@@ -3,12 +3,12 @@ services:
   plex:
     container_name: "plex"
     environment:
-      TZ: ${TZ}
-      PGID: ${ID}
-      PUID: ${ID}
-      UMASK: ${UMASK}
-      PLEX_CLAIM: ${PLEX_CLAIM_ID}
-      VERSION: ${PLEX_VERSION}
+      TZ: ${TZ:?err}
+      PGID: ${ID:?err}
+      PUID: ${ID:?err}
+      UMASK: ${UMASK:?err}
+      PLEX_CLAIM: ${PLEX_CLAIM_ID:?err}
+      VERSION: ${PLEX_VERSION:?err}
     image: "linuxserver/plex:latest"
     restart: "unless-stopped"
     networks:
@@ -23,7 +23,7 @@ services:
     ports:
       - "32400:32400"
     volumes:
-      - "${APP_DIR}/plex/database:/config:rw"
+      - "${APP_DIR:?err}/plex/database:/config:rw"
       - "/mnt:/mnt:ro"
       - "/dev/shm:/transcode:rw"
     devices:

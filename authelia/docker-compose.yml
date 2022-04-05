@@ -6,7 +6,7 @@ services:
     expose:
       - 9091
     volumes:
-      - ${APP_DIR}/authelia:/config
+      - ${APP_DIR:?err}/authelia:/config
     labels:
       traefik.enable: true
       traefik.http.routers.authelia.entryPoints: https
@@ -24,9 +24,9 @@ services:
     expose:
       - 6379
     volumes:
-      - ${APP_DIR}/redis:/bitnami/
+      - ${APP_DIR:?err}/redis:/bitnami/
     environment:
-      REDIS_PASSWORD: "${YOUR_REDIS_PASSWORD}"
+      REDIS_PASSWORD: "${REDIS_PASSWORD:?err}"
     networks:
       - secure
     restart: unless-stopped
@@ -37,9 +37,9 @@ services:
     expose:
       - 3306
     volumes:
-      - ${APP_DIR}/mariadb:/config
+      - ${APP_DIR:?err}/mariadb:/config
     environment:
-      MYSQL_ROOT_PASSWORD: "${YOUR_MYSQL_ROOT_PASSWORD}"    
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD:?err}"    
     networks:
       - secure
     restart: unless-stopped
@@ -51,19 +51,19 @@ services:
       - 389
       - 636
     volumes:
-      - ${APP_DIR}/openldap/certificates:/container/service/slapd/assets/certs
-      - ${APP_DIR}/openldap/slapd/database:/var/lib/ldap
-      - ${APP_DIR}/openldap/slapd/config:/etc/ldap/slapd.d
+      - ${APP_DIR:?err}/openldap/certificates:/container/service/slapd/assets/certs
+      - ${APP_DIR:?err}/openldap/slapd/database:/var/lib/ldap
+      - ${APP_DIR:?err}/openldap/slapd/config:/etc/ldap/slapd.d
     environment: 
-      LDAP_ORGANISATION: "${YOUR_LDAP_ORGANISATION}"
-      LDAP_DOMAIN: "${YOUR_LDAP_DOMAIN}"
-      LDAP_ADMIN_USERNAME: "${YOUR_LDAP_ADMIN_USERNAME}"
-      LDAP_ADMIN_PASSWORD: "${YOUR_LDAP_ADMIN_PASSWORD}"
-      LDAP_CONFIG_PASSWORD: "${YOUR_LDAP_CONFIG_PASSWORD}"
-      LDAP_BASE_DN: "${YOUR_LDAP_BASE_DN}"
-      LDAP_TLS_CRT_FILENAME: "${YOUR_LDAP_TLS_CRT_FILENAME}"
-      LDAP_TLS_KEY_FILENAME: "${YOUR_LDAP_TLS_KEY_FILENAME}"
-      LDAP_TLS_CA_CRT_FILENAME: "${YOUR_LDAP_TLS_CA_CRT_FILENAME}"
+      LDAP_ORGANISATION: "${LDAP_ORGANISATION:?err}"
+      LDAP_DOMAIN: "${LDAP_DOMAIN:?err}"
+      LDAP_ADMIN_USERNAME: "${LDAP_ADMIN_USERNAME:?err}"
+      LDAP_ADMIN_PASSWORD: "${LDAP_ADMIN_PASSWORD:?err}"
+      LDAP_CONFIG_PASSWORD: "${LDAP_CONFIG_PASSWORD:?err}"
+      LDAP_BASE_DN: "${LDAP_BASE_DN:?err}"
+      LDAP_TLS_CRT_FILENAME: "${LDAP_TLS_CRT_FILENAME:?err}"
+      LDAP_TLS_KEY_FILENAME: "${LDAP_TLS_KEY_FILENAME:?err}"
+      LDAP_TLS_CA_CRT_FILENAME: "${LDAP_TLS_CA_CRT_FILENAME:?err}"
     networks:
       - secure
     restart: unless-stopped
