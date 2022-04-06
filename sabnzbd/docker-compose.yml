@@ -7,6 +7,7 @@ services:
       - 7878
     volumes:
       - ${APP_DIR:?err}/sabnzbd:/config
+      - /mnt:/mnt
     labels:
       traefik.enable: true
       traefik.http.routers.sabnzbd.entryPoints: https

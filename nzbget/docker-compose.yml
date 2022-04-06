@@ -7,6 +7,7 @@ services:
       - 6789
     volumes:
       - ${APP_DIR:?err}/nzbget:/config
+      - /mnt:/mnt
     labels:
       traefik.enable: true
       traefik.http.routers.nzbget.entryPoints: https

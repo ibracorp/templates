@@ -7,6 +7,7 @@ services:
       - 8989
     volumes:
       - ${APP_DIR:?err}/sonarr:/config
+      - /mnt:/mnt
     labels:
       traefik.enable: true
       traefik.http.routers.sonarr.entryPoints: https
