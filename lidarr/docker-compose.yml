@@ -1,0 +1,27 @@
+version: '3'
+services:
+  lidarr:
+    container_name: lidarr
+    image: linuxserver/lidarr:latest
+    expose:
+      - 7878
+    volumes:
+      - ${APP_DIR:?err}/lidarr:/config
+      - /mnt:/mnt
+    labels:
+      traefik.enable: true
+      traefik.http.routers.lidarr.entryPoints: https
+      traefik.http.routers.lidarr.middlewares: auth@file
+    environment:
+      TZ: ${TZ:?err}
+      PGID: ${ID:?err}
+      PUID: ${ID:?err}
+      UMASK: ${UMASK:?err}
+    networks:
+      - proxy
+    restart: unless-stopped
+
+networks:
+  proxy:
+    driver: bridge
+    external: true
