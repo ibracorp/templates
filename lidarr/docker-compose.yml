@@ -4,7 +4,7 @@ services:
     container_name: lidarr
     image: linuxserver/lidarr:latest
     expose:
-      - 7878
+      - 8686
     volumes:
       - ${APP_DIR:?err}/lidarr:/config
       - /mnt:/mnt
