@@ -12,6 +12,7 @@ services:
       traefik.enable: true
       traefik.http.routers.qbittorrent.entryPoints: https
       traefik.http.routers.qbittorrent.middlewares: auth@file
+      traefik.http.services.qbittorrent.loadbalancer.server.port: 8080
     environment:
       TZ: ${TZ:?err}
       PGID: ${ID:?err}
