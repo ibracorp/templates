@@ -1,0 +1,28 @@
+version: '3'
+services:
+  qbittorrent:
+    container_name: qbittorrent
+    image: linuxserver/qbittorrent:latest
+    expose:
+      - 8080
+    volumes:
+      - ${APP_DIR:?err}/qbittorrent:/config
+      - /mnt:/mnt
+    labels:
+      traefik.enable: true
+      traefik.http.routers.qbittorrent.entryPoints: https
+      traefik.http.routers.qbittorrent.middlewares: auth@file
+    environment:
+      TZ: ${TZ:?err}
+      PGID: ${ID:?err}
+      PUID: ${ID:?err}
+      UMASK: ${UMASK:?err}
+      WEBUI_PORT: 8080
+    networks:
+      - proxy
+    restart: unless-stopped
+
+networks:
+  proxy:
+    driver: bridge
+    external: true
