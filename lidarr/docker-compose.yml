@@ -2,7 +2,7 @@ version: '3'
 services:
   lidarr:
     container_name: lidarr
-    image: linuxserver/lidarr:latest
+    image: ${MAINTAINER:?err}/lidarr:latest
     expose:
       - 8686
     volumes:
