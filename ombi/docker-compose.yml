@@ -2,7 +2,7 @@ version: '3'
 services:
   ombi:
     container_name: ombi
-    image: linuxserver/ombi:latest
+    image: ${MAINTAINER:?err}/ombi:latest
     expose:
       - 3579
     volumes:

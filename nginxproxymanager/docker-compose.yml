@@ -14,12 +14,27 @@ services:
     environment:
       DB_MYSQL_HOST: mariadb
       DB_MYSQL_PORT: 3306
-      DB_MYSQL_USER: ${MYSQL_NPM_USER}
+      DB_MYSQL_USER: ${MYSQL_NPM_USER:?err}
       DB_MYSQL_NAME: ${MYSQL_NPM_NAME:?err}
       DB_MYSQL_PASSWORD: "${MYSQL_NPM_PASSWORD:?err}"
       DISABLE_IPV6: true
     networks:
       - proxy
+    restart: unless-stopped
+    depends_on:
+      - mariadb
+
+  mariadb:
+    container_name: mariadb
+    image: linuxserver/mariadb:latest
+    expose:
+      - 3306
+    volumes:
+      - ${APP_DIR:?err}/mariadb:/config
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD:?err}"    
+    networks:
+      - secure
     restart: unless-stopped
 
 networks:

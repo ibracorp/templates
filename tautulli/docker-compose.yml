@@ -2,7 +2,7 @@ version: '3'
 services:
   tautulli:
     container_name: tautulli
-    image: linuxserver/tautulli:latest
+    image: ${MAINTAINER:?err}/tautulli:latest
     expose:
       - 8181
     volumes:

@@ -2,26 +2,26 @@ version: '3'
 services:
   jellyfin:
     container_name: "jellyfin"
-    environment:
-      TZ: ${TZ:?err}
-      PGID: ${ID:?err}
-      PUID: ${ID:?err}
-      UMASK: ${UMASK:?err}
     image: "jellyfin/jellyfin:latest"
-    restart: "unless-stopped"
-    networks:
-      - proxy
     ports:
       - "8096:8096"
     volumes:
       - "${APP_DIR:?err}/jellyfin:/config:rw"
       - "/mnt:/mnt:ro"
-      - "/dev/shm:/transcode:rw"
-    devices:
-       - /dev/dri:/dev/dri
+      - "${TRANSCODE_DIR:?err}:/transcode:rw"
     labels:
       traefik.enable: true
       traefik.http.routers.jellyfin.entryPoints: https
+    environment:
+      TZ: ${TZ:?err}
+      PGID: ${ID:?err}
+      PUID: ${ID:?err}
+      UMASK: ${UMASK:?err}
+    networks:
+      - proxy
+    restart: unless-stopped
+    devices:
+       - /dev/dri:/dev/dri
 
 networks:
   proxy:

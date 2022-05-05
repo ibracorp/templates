@@ -2,7 +2,7 @@ version: '3'
 services:
   radarr:
     container_name: radarr
-    image: linuxserver/radarr:latest
+    image: ${MAINTAINER:?err}/radarr:latest
     expose:
       - 7878
     volumes:

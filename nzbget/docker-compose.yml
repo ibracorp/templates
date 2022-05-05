@@ -2,7 +2,7 @@ version: '3'
 services:
   nzbget:
     container_name: nzbget
-    image: linuxserver/nzbget:latest
+    image: ${MAINTAINER:?err}/nzbget:latest
     expose:
       - 6789
     volumes:

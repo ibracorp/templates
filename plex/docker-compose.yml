@@ -2,6 +2,16 @@ version: '3'
 services:
   plex:
     container_name: "plex"
+    image: "${MAINTAINER:?err}/plex:latest"
+    ports:
+      - "32400:32400"
+    volumes:
+      - "${APP_DIR:?err}/plex/database:/config:rw"
+      - "/mnt:/mnt:ro"
+      - "${TRANSCODE_DIR:?err}:/transcode:rw"
+    labels:
+      traefik.enable: true
+      traefik.http.routers.plex.entryPoints: https
     environment:
       TZ: ${TZ:?err}
       PGID: ${ID:?err}
@@ -9,10 +19,9 @@ services:
       UMASK: ${UMASK:?err}
       PLEX_CLAIM: ${PLEX_CLAIM_ID:?err}
       VERSION: ${PLEX_VERSION:?err}
-    image: "linuxserver/plex:latest"
-    restart: "unless-stopped"
     networks:
       - proxy
+    restart: unless-stopped
     extra_hosts:
       - "analytics.plex.tv:127.0.0.1"
       - "metrics.plex.tv:127.0.0.1"
@@ -20,17 +29,8 @@ services:
       - "mf.svc.nhl.com:127.0.0.1"
       - "mlb-ws-mf.media.mlb.com:127.0.0.1"
       - "playback.svcs.mlb.com:127.0.0.1"
-    ports:
-      - "32400:32400"
-    volumes:
-      - "${APP_DIR:?err}/plex/database:/config:rw"
-      - "/mnt:/mnt:ro"
-      - "/dev/shm:/transcode:rw"
     devices:
        - /dev/dri:/dev/dri
-    labels:
-      traefik.enable: true
-      traefik.http.routers.plex.entryPoints: https
 
 networks:
   proxy:

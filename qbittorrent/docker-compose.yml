@@ -2,7 +2,7 @@ version: '3'
 services:
   qbittorrent:
     container_name: qbittorrent
-    image: linuxserver/qbittorrent:latest
+    image: ${MAINTAINER:?err}/qbittorrent:latest
     expose:
       - 8080
     volumes:
