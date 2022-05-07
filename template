@@ -1,9 +1,0 @@
-#!/bin/bash
-
-for app in "$@"
-do
-  if [ ! -d /opt/apps/$app ]; then
-      echo "Sorry, the template folder for $app does not exist."
-    else mkdir -p /opt/appdata; cp -r -i /opt/apps/$app /opt/appdata/$app; echo "Copied $app successfully to /opt/appdata"; sleep 1
-  fi
-done
