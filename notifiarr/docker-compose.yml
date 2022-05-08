@@ -1,0 +1,25 @@
+version: '3'
+services:
+  notifiarr:
+    container_name: notifiarr
+    image: golift/notifiarr
+    ports:
+      - "5454:5454"
+    volumes:
+      - ${APP_DIR:?err}/notifiarr:/config
+      - /var/run/utmp:/var/run/utmp
+    labels:
+      traefik.enable: true
+      traefik.http.routers.notifiarr.entryPoints: https
+    environment:
+      TZ: ${TZ:?err}
+      PGID: ${ID:?err}
+      PUID: ${ID:?err}
+    networks:
+      - proxy
+    restart: unless-stopped
+
+networks:
+  proxy:
+    driver: bridge
+    external: true
