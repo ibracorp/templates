@@ -1,0 +1,29 @@
+version: '3'
+services:
+  swag:
+    container_name: swag
+    image: lscr.io/linuxserver/swag
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ${APP_DIR:?err}/swag:/config
+    environment:
+      TZ: ${TZ:?err}
+      PGID: ${ID:?err}
+      PUID: ${ID:?err}
+      EMAIL: ${EMAIL:?err}
+      URL: ${DOMAIN:?err}
+      SUBDOMAINS: wildcard
+      ONLY_SUBDOMAINS: false
+      VALIDATION: dns
+      DNSPLUGIN: cloudflare
+      STAGING: false
+    networks:
+      - proxy
+    restart: unless-stopped
+
+networks:
+  proxy:
+    driver: bridge
+    external: true
