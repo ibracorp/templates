@@ -1,5 +1,5 @@
 # Templates
-A selection of docker compose files that follow our series of YouTube videos
+A selection of Docker Compose files that follow our series of YouTube videos
 
 # Video Guide
 
@@ -9,9 +9,9 @@ A selection of docker compose files that follow our series of YouTube videos
 
 https://docs.ibracorp.io/docker-compose/
 
-# Create Docker Networs
+# Create Docker Networks
 
-Create custom docker network called proxy
+Create a custom Docker network called proxy
 
 ```
 docker network create proxy secure
